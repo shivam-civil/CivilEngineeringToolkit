@@ -3,7 +3,8 @@ import streamlit as st
 # Title and icon for all pages 
 st.set_page_config(
     page_title="CivilEngineeringTools",
-    page_icon="🧱"
+    page_icon="🧱",
+    layout="wide"
 )
 
 # Configure Pages 
