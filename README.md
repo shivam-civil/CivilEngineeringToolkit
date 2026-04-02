@@ -1,4 +1,4 @@
-#CivilEngineeringTools
+#CivilEngineeringToolkit
 
 # 🚧 Civil Engineering Survey Automation (Python + Streamlit)
 
