@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
+import math 
+
 class Traverse:
     Traverse_Type=["Open Traverse","Closed Traverse"]
     Correction_Method=["Bowditch Method"]
@@ -42,6 +44,8 @@ class Traverse:
         perimeter=self.df["Distance(m)"].sum()
         sumcl=self.df["calculated_latitude"].sum()     # SUM OF CALCULATED LATITUTE 
         sumcd=self.df["calculated_departure"].sum()    # SUM OF CALCULATED DEPARTURE
+        closing_error = math.sqrt(sumcl**2 + sumcd**2) # CLOSING ERROR
+        precision_factor =round( perimeter / closing_error , 0)   # PRECISION FACTOR
         self.df["correction_for_latitude"] = ( sumcl * self.df["Distance(m)"] ) / perimeter
         self.df["correction_for_departure"] = ( sumcd * self.df["Distance(m)"]) / perimeter
         self.df["CorrectedLatitude"]=self.df["calculated_latitude"] - self.df["correction_for_latitude"]
@@ -88,27 +92,20 @@ class Traverse:
             "calculated_latitude":self.clean_zero(sumcl),
             "calculated_departure":self.clean_zero(sumcd),
             "CorrectedLatitude":self.clean_zero(SumCL),
-            "CorrectedDeparture":self.clean_zero(SumCD),
-            "ForeBearing(WCB)":None,
-            "decimal_degree":None,
-            "rad_degree":None,
-            "correction_for_latitude":None,
-            "correction_for_departure":None,
-            "Easting":None,
-            "Northing":None,
-            "Coordinates":None
+            "CorrectedDeparture":self.clean_zero(SumCD)
         }
         # ADD THE LAST ROW 
         showable_df = pd.concat([showable_df,pd.DataFrame([last_row])], ignore_index=True )
         if self.detailed == "Main Datas Only":
             main_colns=["Station","Distance(m)","ForeBearing(WCB)","Easting","Northing","Coordinates"]
-            return showable_df[main_colns]
+            return showable_df[main_colns],precision_factor 
 
-        return showable_df
+        return showable_df,precision_factor
 
     def compute_traverse(self):
         if self.correction_method == "Bowditch Method":
-            return self.compute_traverse_bowditch()
+            results,precision_factor =  self.compute_traverse_bowditch()
+            return results,precision_factor
         
     def clean_zero(self,val):
         return 0 if abs(val) < 1e-6 else val 

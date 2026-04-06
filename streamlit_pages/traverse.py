@@ -57,10 +57,21 @@ with st.form("myform"):
 if submitted:
     cleaned_data=edited_data.dropna()
     traverse_1=Traverse(cleaned_data,traverse_type,correction_method,detailed)
-    results=traverse_1.compute_traverse()
+    results,precision_factor=traverse_1.compute_traverse()
     st.divider()
     st.write(" ")
     st.subheader("Traverse Computation Results")
+    st.write(" ")
+    if precision_factor <=1000 :
+        st.warning(f"Precision of Traverse = 1 : {precision_factor}  | Unacceptable, major errors in survey ")
+    elif  3000 >=precision_factor > 1000 :
+        st.warning(f"Precision of Traverse = 1 : {precision_factor}  |  Low accuracy, acceptable only for rough work ")
+    elif 5000 >= precision_factor > 3000 : 
+        st.warning(f"Precision of Traverse = 1 : {precision_factor}  |  Acceptable for normal engineering surveys ")
+    elif 10000 >= precision_factor > 5000 : 
+        st.success(f"Precision of Traverse = 1 : {precision_factor}  |  High accuracy, reliable data ")
+    elif precision_factor >  10000 :
+        st.success(f"Precision of Traverse = 1 : {precision_factor}  |  Very high precision, professional-grade ")
     st.dataframe(results)
     traverse_1.plot_traverse()
     
