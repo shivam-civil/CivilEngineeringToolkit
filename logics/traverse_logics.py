@@ -54,8 +54,8 @@ class Traverse:
         SumCD=self.df["CorrectedDeparture"].sum()    # SUM OF CORRECTED DEPARTURE
         
         # EASTING AND NORTHING COORDINATES
-        EO = 301766
-        NO = 3055567
+        EO = 331761.347
+        NO = 3055795.203
         E = [EO]
         N = [NO]
         for i in range(len(self.df)) :
