@@ -7,14 +7,15 @@ import math
 class Traverse:
     Traverse_Type=["Open Traverse","Closed Traverse"]
     Correction_Method=["Bowditch Method"]
-    def __init__(self,df,traverse_type,correction_method,detailed=False):
+    def __init__(self,df,traverse_type,correction_method,e,w,detailed=False):
         self.traverse_type=traverse_type
         self.correction_method=correction_method
         self.df=df
         self.detailed=detailed
         self.x_coords=None
         self.y_coords=None
-        
+        self.e=e
+        self.w=w
     def dms_csv_to_decimal(self,dms_str: str):
         """
         This function converts the dms string to float decimal degree.
@@ -54,8 +55,8 @@ class Traverse:
         SumCD=self.df["CorrectedDeparture"].sum()    # SUM OF CORRECTED DEPARTURE
         
         # EASTING AND NORTHING COORDINATES
-        EO = 331761.347
-        NO = 3055795.203
+        EO = self.e
+        NO = self.w
         E = [EO]
         N = [NO]
         for i in range(len(self.df)) :

@@ -33,6 +33,11 @@ with st.form("myform"):
             label="Result Type",
             options=["Main Datas Only","Detailed Datas For Error Check"]
         )
+    col1,col2 = st.columns(2)
+    with col1:
+        E=st.number_input("Easting")
+    with col2:
+        W=st.number_input("Westing")
     st.write(" ")    
 
     data=pd.DataFrame(
@@ -56,7 +61,7 @@ with st.form("myform"):
 
 if submitted:
     cleaned_data=edited_data.dropna()
-    traverse_1=Traverse(cleaned_data,traverse_type,correction_method,detailed)
+    traverse_1=Traverse(cleaned_data,traverse_type,correction_method,E,W,detailed)
     results,precision_factor=traverse_1.compute_traverse()
     st.divider()
     st.write(" ")
