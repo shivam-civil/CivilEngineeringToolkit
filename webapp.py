@@ -12,12 +12,12 @@ st.set_page_config(
 levellinG=st.Page(
     page="streamlit_pages/levelling.py",
     title="Levelling Automation",
-    icon="💠"
+    icon="📈"
 )
 traversE=st.Page(
     page="streamlit_pages/traverse.py",
     title="Traverse Automation",
-    icon="💠"
+    icon="🔄"
 )
 developeR=st.Page(
     page="streamlit_pages/developer.py",
@@ -25,11 +25,16 @@ developeR=st.Page(
     icon="👨‍💻",
     default=True
 )
+dataentrY=st.Page(
+    page="streamlit_pages/dataentry.py",
+    title="Data Entry Utils",
+    icon="📊",
+)
 
 # naviagtion
 nav = st.navigation(
     {
-        "Tools":[levellinG,traversE],
+        "Tools":[levellinG,traversE,dataentrY],
         "Info":[developeR]
     }
 )
