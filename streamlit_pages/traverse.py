@@ -35,9 +35,9 @@ with st.form("myform"):
         )
     col1,col2 = st.columns(2)
     with col1:
-        E=st.number_input("Easting")
+        E=st.number_input("Easting",min_value=0)
     with col2:
-        W=st.number_input("Westing")
+        N=st.number_input("Northing",min_value=0)
     st.write(" ")    
 
     data=pd.DataFrame(
@@ -61,7 +61,7 @@ with st.form("myform"):
 
 if submitted:
     cleaned_data=edited_data.dropna()
-    traverse_1=Traverse(cleaned_data,traverse_type,correction_method,E,W,detailed)
+    traverse_1=Traverse(cleaned_data,traverse_type,correction_method,E,N,detailed)
     results,precision_factor=traverse_1.compute_traverse()
     st.divider()
     st.write(" ")
