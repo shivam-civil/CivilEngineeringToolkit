@@ -9,10 +9,7 @@ with st.form("myform"):
     st.title("Traverse Automation Tool")
     st.write(" ")
     st.subheader("Note : ")
-    st.markdown("""
-        1) Enter readings in CSV Format like as 40,20,10.
-        \n2) Readings Should be in WCB System                    
-        """)
+    st.info('1) Enter readings in CSV Format like as 40,20,10.\n2) Readings Should be in WCB System ',icon="🥷")
     st.write(" ")
 
 

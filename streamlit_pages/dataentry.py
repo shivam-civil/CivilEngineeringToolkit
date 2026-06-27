@@ -4,11 +4,13 @@ from logics.dataentry_logics import concat_data
 
 with st.form("data_key"):
     st.header("DataEntry Utils")
+    st.info("Same like concat in Excel",icon="🥷")
 
     # RAW INPUTS
     headers = st.text_input("Headers [In CSV Format] ")
     default_values = st.text_input("Default Values [In CSV Format]",help="Don't skip any , instead add string space")
     concat_type = st.selectbox("Concat Type",["Left To Right","Right To Left"])
+    
     
     # CLEANING THE RAW DATAS 
     headers = headers.strip().lower().split(",")

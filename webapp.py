@@ -28,13 +28,18 @@ developeR=st.Page(
 dataentrY=st.Page(
     page="streamlit_pages/dataentry.py",
     title="Data Entry Utils",
-    icon="📊",
+    icon="📊"
+)
+sieveanalysiS = st.Page(
+    page="streamlit_pages/sieveanalysis.py",
+    title="Soil Sieve Analysis",
+    icon="🧩"
 )
 
 # naviagtion
 nav = st.navigation(
     {
-        "Tools":[levellinG,traversE,dataentrY],
+        "Tools":[levellinG,traversE,sieveanalysiS,dataentrY],
         "Info":[developeR]
     }
 )
