@@ -3,7 +3,7 @@
 
 def analyze_sieve(df,total_mass = None):
     '''
-    This function should return a dataframe,list of [d10,d30,d60] and lits of [Cv,Cc]
+    This function should return a dataframe,list of [d10,d30,d60] and lits of [Cu,Cc]
     '''
     import pandas as pd 
     import numpy as np
@@ -18,26 +18,31 @@ def analyze_sieve(df,total_mass = None):
     df['PercentagePassing'] = df['PercentagePassing'].clip(lower=0)
 
     
-    df.sort_values("SieveSize(mm)").reset_index(drop=True)
+    df = df.sort_values("SieveSize(mm)", ascending=False).reset_index(drop=True)
     sizes = df["SieveSize(mm)"].values
     passing = df["PercentagePassing"].values 
 
-    sizes = sizes[::-1]
+    # Fix - get passing from plot_df too
+    plot_mask = df["SieveSize(mm)"] > 0
+    plot_df = df[plot_mask]
+
+    log_sizes = np.log10(plot_df["SieveSize(mm)"].values)
+    passing = plot_df["PercentagePassing"].values
+
+    # reverse for interpolation
+    log_sizes = log_sizes[::-1]
     passing = passing[::-1]
 
-    log_sizes = np.log10(sizes)
-
-    # interpolate in log scale
     d10 = round(10 ** np.interp(10, passing, log_sizes), 4)
     d30 = round(10 ** np.interp(30, passing, log_sizes), 4)
     d60 = round(10 ** np.interp(60, passing, log_sizes), 4)
 
-    Cv = round(d60/d10,3)
+    Cu = round(d60/d10,3)
     Cc = round((d30**2)/(d10*d60),3)
     d = [d10,d30,d60]
-    coeff = [Cv,Cc]
+    coeff = [Cu,Cc]
 
-    return df, d, coeff
+    return df, plot_df, d, coeff
 
 
 
@@ -69,9 +74,10 @@ def plot_psd(df, d_values):
         ))
 
     fig.update_layout(
-        xaxis=dict(type='log', title='Sieve Size (mm)'),
+        xaxis=dict(type='log', title='Sieve Size (mm)',autorange="reversed"),
         yaxis=dict(title='% Passing'),
         title='Particle Size Distribution Curve'
+        
     )
 
     return fig
