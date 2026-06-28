@@ -17,7 +17,7 @@ with st.form("data_key"):
     default_values = default_values.strip().lower().split(",")
     nums = int(st.number_input("Number Of Datas", min_value=1, key="num_rows"))
     if isinstance(headers,list) and len(headers)>1:
-        df = pd.DataFrame({header:[0]*nums for header in headers})
+        df = pd.DataFrame({header: [""] * nums for header in headers})
         remaining_datas = st.data_editor(df,num_rows="dynamic",width="stretch",hide_index=True)
 
     
